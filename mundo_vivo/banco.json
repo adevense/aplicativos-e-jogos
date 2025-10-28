@@ -1,0 +1,42 @@
+{
+    "grupos": [
+        {
+            "nome": "testers",
+            "descricao": "teste de grupos",
+            "quantidade_membros": 28
+        }
+    ],
+    "npcs": [
+        {
+            "nome": "clovis",
+            "descricao": "é um man"
+        },
+        {
+            "nome": "Kenzo",
+            "descricao": "É "
+        },
+        {
+            "nome": "Inácio",
+            "descricao": "Essa frase ficou boa"
+        },
+        {
+            "nome": "claudio",
+            "descricao": "é o caba do teste"
+        }
+    ],
+    "players": [
+        {
+            "nome": "carlos habbib",
+            "descricao": "é o habbib's",
+            "classe": "arabe",
+            "nivel": 7,
+            "raca": "arabe",
+            "jogador": "hudson hornet",
+            "atributos": "20 em tudo slk mt brabo",
+            "vida": 1000,
+            "ca": 10000,
+            "anotacoes": "o cara é mt pika"
+        }
+    ],
+    "locais": []
+}
