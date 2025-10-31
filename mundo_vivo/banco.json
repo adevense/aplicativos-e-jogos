@@ -2,8 +2,13 @@
     "grupos": [
         {
             "nome": "testers",
-            "descricao": "teste de grupos",
-            "quantidade_membros": 28
+            "descricao": "teste de grupos 3",
+            "quantidade_membros": 30
+        },
+        {
+            "nome": "guris",
+            "descricao": "guris teste 3",
+            "quantidade_membros": 7
         }
     ],
     "npcs": [
@@ -21,21 +26,21 @@
         },
         {
             "nome": "claudio",
-            "descricao": "é o caba do teste"
+            "descricao": "é o caba do teste 5"
         }
     ],
     "players": [
         {
             "nome": "carlos habbib",
-            "descricao": "é o habbib's",
-            "classe": "arabe",
-            "nivel": 7,
-            "raca": "arabe",
+            "descricao": "",
+            "classe": "arabe superior",
+            "nivel": 10,
+            "raca": "alto arabe",
             "jogador": "hudson hornet",
-            "atributos": "20 em tudo slk mt brabo",
-            "vida": 1000,
-            "ca": 10000,
-            "anotacoes": "o cara é mt pika"
+            "atributos": "todo x2 mt brabo",
+            "vida": 10000,
+            "ca": 100000000,
+            "anotacoes": ""
         }
     ],
     "locais": []

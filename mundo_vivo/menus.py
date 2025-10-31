@@ -1,19 +1,13 @@
 import os
 from funcoes import *
-
-def limpar_tela():
-    """Limpa o console."""
-    if os.name == 'nt':
-        _ = os.system('cls')
-    else:
-        _ = os.system('clear')
+from gerenciar_banco import limpar_tela
 
 # --- Funções de Sub-Menu ---
 
 def menu_adicionar():
     while True:
         limpar_tela()
-        print("--- MENU ADICIONAR ---")
+        print("\n--- MENU ADICIONAR ---")
         print("1. Adicionar grupo")
         print("2. Adicionar npc")
         print("3. Adicionar player")
@@ -46,8 +40,39 @@ def menu_adicionar():
 def menu_editar():
     while True:
         limpar_tela()
-        print("--- MENU EDITAR ---")
-        print("1. Editar Item (Em desenvolvimento)")
+        print("\n--- MENU EDITAR ---")
+        print("1. Editar player")
+        print("2. Editar grupo")
+        print("3. Editar local")
+        print("4. Editar npc")
+        print("5. Voltar")
+        
+        opcao = input("Escolha uma opção: ").strip()
+        
+        if opcao == '1':
+            limpar_tela()
+            editar_player()
+        elif opcao == '2':
+            limpar_tela()
+            editar_grupo()
+        elif opcao == '3':
+            limpar_tela()
+            #editar_local()
+        elif opcao == '4':
+            limpar_tela()
+            editar_npc()
+        elif opcao == '5':
+            break  # Volta ao Menu Principal
+        else:
+            print("Opção inválida.")
+            input("Pressione Enter para continuar...")
+
+
+def menu_tempo():
+    while True:
+        limpar_tela()
+        print("\n--- MENU TEMPO ---")
+
         print("2. Voltar")
         
         opcao = input("Escolha uma opção: ").strip()
@@ -63,20 +88,32 @@ def menu_editar():
             input("Pressione Enter para continuar...")
 
 
-def menu_tempo():
+
+def menu_visualizar():    
     while True:
         limpar_tela()
-        print("--- MENU TEMPO ---")
-
-        print("2. Voltar")
+        print("\n--- MENU VISUALIZAR ---")
+        print("1. Visualizar players")
+        print("2. Visualizar grupos")
+        print("3. Visualizar locais")
+        print("4. Visualizar npcs")
+        print("5. Voltar")
         
         opcao = input("Escolha uma opção: ").strip()
         
         if opcao == '1':
             limpar_tela()
-
-            input("Pressione Enter para continuar...")
+            #visualizar_players()
         elif opcao == '2':
+            limpar_tela()
+            #visualizar_grupos()
+        elif opcao == '3':
+            limpar_tela()
+            #visualizar_locais()
+        elif opcao == '4':
+            limpar_tela()
+            #visualizar_npcs()
+        elif opcao == '5':
             break  # Volta ao Menu Principal
         else:
             print("Opção inválida.")
@@ -88,11 +125,12 @@ def menu_tempo():
 def menu_principal():
     while True:
         limpar_tela()
-        print("--- MENU PRINCIPAL ---")
+        print("\n--- MENU PRINCIPAL ---")
         print("1. Menu Adicionar")
         print("2. Menu Editar")
         print("3. Menu Tempo")
-        print("4. Sair")
+        print("4. Menu visualizar")
+        print("5. Sair")
         
         opcao = input("Escolha uma opção: ").strip()
         
@@ -104,6 +142,8 @@ def menu_principal():
         elif opcao == '3':
             menu_tempo()
         elif opcao == '4':
+            menu_visualizar()
+        elif opcao == '5':
             limpar_tela()
             print("Saindo...")
             break

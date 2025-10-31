@@ -24,3 +24,10 @@ def salvar_dados(grupos,npcs,players,locais):
             "locais": locais
         }
         json.dump(dados, banco, indent=4, ensure_ascii=False) # estou salvando o conteudo do dicionario dados no arquivo json
+
+def limpar_tela():
+    """Limpa o console."""
+    if os.name == 'nt':
+        _ = os.system('cls')
+    else:
+        _ = os.system('clear')
