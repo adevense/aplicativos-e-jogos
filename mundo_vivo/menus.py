@@ -93,31 +93,44 @@ def menu_visualizar():
     while True:
         limpar_tela()
         print("\n--- MENU VISUALIZAR ---")
-        print("1. Visualizar players")
-        print("2. Visualizar grupos")
-        print("3. Visualizar locais")
-        print("4. Visualizar npcs")
-        print("5. Voltar")
+        print("1. Visualizar todos os players")
+        print("2. visualizar player")
+        print("3. Visualizar todos os grupos")
+        print("4. visualizar grupo")
+        print("5. Visualizar todos os locais")
+        print("6. visualizar local")
+        print("7. Visualizar todos os npcs")
+        print("8. visualizar npc")
+        print("9. Voltar")
         
         opcao = input("Escolha uma opção: ").strip()
         
         if opcao == '1':
             limpar_tela()
-            #visualizar_players()
+            visualizar_todos_players()
         elif opcao == '2':
             limpar_tela()
-            #visualizar_grupos()
+            #visualizar_player()
         elif opcao == '3':
             limpar_tela()
-            #visualizar_locais()
+            #visualizar_todos_grupos()
         elif opcao == '4':
             limpar_tela()
-            #visualizar_npcs()
+            #visualizar_grupo()
         elif opcao == '5':
+            limpar_tela()
+            #visualizar_todos_locais()
+        elif opcao == '6':
+            limpar_tela()
+           #visualizar_local()
+        elif opcao == '7':
+            limpar_tela()
+            #visualizar_todos_npcs()
+        elif opcao == '8':
+            limpar_tela()
+            #visualizar_npc()
+        elif opcao == '9':
             break  # Volta ao Menu Principal
-        else:
-            print("Opção inválida.")
-            input("Pressione Enter para continuar...")
 
 
 # --- Função do Menu Principal ---

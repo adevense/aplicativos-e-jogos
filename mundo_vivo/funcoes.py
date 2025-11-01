@@ -1,5 +1,5 @@
 from gerenciar_banco import *
-from menus import *
+
 
 
 
@@ -211,3 +211,18 @@ def editar_grupo():
             input("Pressione Enter para continuar...")
             return
     print(f"Grupo '{nome}' não encontrado.")
+
+
+#funcoes de visualizar
+
+
+def visualizar_todos_players():
+    grupos,npcs,players,locais = importar_dados()
+    if not players:
+        print("Nenhum player cadastrado.")
+    else:
+        limpar_tela()
+        for player in players:
+            print("\n -------------------------")
+            print(f"\n Nome: {player['nome']} \n Descrição: {player['descricao']} \n Classe: {player['classe']} \n Nível: {player['nivel']} \n Raça: {player['raca']} \n Jogador: {player['jogador']} \n Atributos: {player['atributos']} \n Vida: {player['vida']} \n CA: {player['ca']} \n Anotações: {player['anotacoes']}")
+    input("\n Pressione Enter para continuar...")
