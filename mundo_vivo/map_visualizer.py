@@ -34,7 +34,7 @@ def visualize_map(json_path, output_path):
         "gelo": "#F0F8FF",          # Branco Azulado (Geleira)
         "rochoso": "#8B4513",       # Marrom Sela (Montanha/Rochoso)
         "terra": "#3CB371",         # Verde Médio Primavera (Terra)
-        "vazio": "#FFFFFF",         # Branco (Fora do Mapa)
+        "vazio": "#FFD900",         # Branco (Fora do Mapa)
         "desconhecido": "#FF0000"   # Vermelho (Caso de segurança, não deve ocorrer)
     }
     
