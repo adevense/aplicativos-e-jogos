@@ -53,18 +53,6 @@
             "vida": 12345,
             "ca": 654,
             "anotacoes": "nada"
-        },
-        {
-            "nome": "hugo",
-            "descricao": "hugo lol",
-            "classe": "lol",
-            "nivel": 1,
-            "raca": "jogador de lol",
-            "jogador": "hugos lols",
-            "atributos": "0",
-            "vida": 1,
-            "ca": 1,
-            "anotacoes": "joga lol"
         }
     ],
     "locais": []

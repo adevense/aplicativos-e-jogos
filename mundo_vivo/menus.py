@@ -110,13 +110,13 @@ def menu_visualizar():
             visualizar_todos_players()
         elif opcao == '2':
             limpar_tela()
-            #visualizar_player()
+            visualizar_player()
         elif opcao == '3':
             limpar_tela()
-            #visualizar_todos_grupos()
+            visualizar_todos_grupos()
         elif opcao == '4':
             limpar_tela()
-            #visualizar_grupo()
+            visualizar_grupo()
         elif opcao == '5':
             limpar_tela()
             #visualizar_todos_locais()
@@ -125,12 +125,45 @@ def menu_visualizar():
            #visualizar_local()
         elif opcao == '7':
             limpar_tela()
-            #visualizar_todos_npcs()
+            visualizar_todos_npcs()
         elif opcao == '8':
             limpar_tela()
-            #visualizar_npc()
+            visualizar_npc()
         elif opcao == '9':
             break  # Volta ao Menu Principal
+
+
+# --- Função do menu deletar ---
+
+def menu_deletar():
+    while True:
+        limpar_tela()
+        print("\n--- MENU DELETAR ---")
+        print("1. Deletar player")
+        print("2. Deletar grupo")
+        print("3. Deletar local")
+        print("4. Deletar npc")
+        print("5. Voltar")
+        
+        opcao = input("Escolha uma opção: ").strip()
+        
+        if opcao == '1':
+            limpar_tela()
+            deletar_player()
+        elif opcao == '2':
+            limpar_tela()
+            deletar_grupo()
+        elif opcao == '3':
+            limpar_tela()
+            #deletar_local()
+        elif opcao == '4':
+            limpar_tela()
+            deletar_npc()
+        elif opcao == '5':
+            break  # Volta ao Menu Principal
+        else:
+            print("Opção inválida.")
+            input("Pressione Enter para continuar...")
 
 
 # --- Função do Menu Principal ---
@@ -143,7 +176,8 @@ def menu_principal():
         print("2. Menu Editar")
         print("3. Menu Tempo")
         print("4. Menu visualizar")
-        print("5. Sair")
+        print("5. Menu Deletar")
+        print("6. Sair")
         
         opcao = input("Escolha uma opção: ").strip()
         
@@ -157,6 +191,9 @@ def menu_principal():
         elif opcao == '4':
             menu_visualizar()
         elif opcao == '5':
+            limpar_tela()
+            menu_deletar()
+        elif opcao == '6':
             limpar_tela()
             print("Saindo...")
             break
