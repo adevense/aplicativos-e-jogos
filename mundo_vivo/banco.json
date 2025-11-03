@@ -27,6 +27,46 @@
         {
             "nome": "claudio",
             "descricao": "é o caba do teste 5"
+        },
+        {
+            "nome": "zoio",
+            "descricao": "zoio"
+        },
+        {
+            "nome": "garibaldo",
+            "descricao": "mt foda"
+        },
+        {
+            "nome": "frieren",
+            "descricao": "maga"
+        },
+        {
+            "nome": "alice",
+            "descricao": "explosion"
+        },
+        {
+            "nome": "irmão do zoio",
+            "descricao": "Kaike"
+        },
+        {
+            "nome": "ibere tenorio",
+            "descricao": "Malegeno"
+        },
+        {
+            "nome": "reze",
+            "descricao": "boom"
+        },
+        {
+            "nome": "evil neuro",
+            "descricao": "metal pipe"
+        },
+        {
+            "nome": "vedal",
+            "descricao": "tartaruga"
+        },
+        {
+            "nome": "neuro",
+            "descricao": "Normal Neuro"
         }
     ],
     "players": [
