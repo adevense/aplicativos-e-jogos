@@ -2,11 +2,13 @@
 import json
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 from matplotlib.colors import ListedColormap
 
 # Caminho para o arquivo JSON gerado
-INPUT_JSON_PATH = "C:/Users/Sora/Documents/Programação/aplicativos-e-jogos/mundo_vivo/mapa_200x86.json"
-OUTPUT_IMAGE_PATH = "C:/Users/Sora/Documents/Programação/aplicativos-e-jogos/mundo_vivo/mapa_visualizado.png"
+CAMINHO_SCRIPT = os.path.dirname(os.path.abspath(__file__))
+INPUT_JSON_PATH = os.path.join(CAMINHO_SCRIPT, 'mapa_200x86.json')
+OUTPUT_IMAGE_PATH = os.path.join(CAMINHO_SCRIPT, 'mapa_visualizado.png')
 
 def visualize_map(json_path, output_path):
     """
