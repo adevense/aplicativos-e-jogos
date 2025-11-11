@@ -3,79 +3,129 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import ListedColormap
-from matplotlib.patches import Rectangle # Usar Rectangle para compatibilidade
+from matplotlib.patches import Rectangle, Patch
+import sys
 
-# --- Configurações de Caminho ---
+# --- Configurações de Caminho e Constantes ---
+WIDTH = 200
+HEIGHT = 86
 CAMINHO_SCRIPT = os.path.dirname(os.path.abspath(__file__))
-JSON_PATH = os.path.join(CAMINHO_SCRIPT, 'mapa_final_200x86.json')
+INPUT_JSON_PATH = os.path.join(CAMINHO_SCRIPT, 'mapa_final_200x86.json')
+OUTPUT_IMAGE_PATH = os.path.join(CAMINHO_SCRIPT, 'mapa_visualizado_final.png')
 
-# Terrenos e Ambientes Válidos
+# Terrenos e Ambientes Válidos (para edição)
 TERRENOS_VALIDOS = ["agua", "gelo", "rochoso", "gramado", "vazio"]
 AMBIENTES_VALIDOS = ["oceano", "rio", "geleira", "montanha", "terreno_rochoso", "floresta", "campo", "vazio"]
 
-# --- Funções de Plotagem ---
-WIDTH = 200
-HEIGHT = 86
-
+# 1. Definição das Cores (RGB)
 COLOR_MAP_MATPLOTLIB = {
-    "agua": (0.2, 0.4, 0.6),
-    "gelo": (1.0, 1.0, 1.0),
-    "rochoso": (0.4, 0.2, 0.0),
-    "vegetacao_escuro": (0.0, 0.5, 0.0),
-    "vegetacao_claro": (0.6, 0.8, 0.2),
-    "vazio": (0.0, 0.0, 0.0),
-    "acampamento": (1.0, 0.0, 0.0),
+    "agua": (0.2, 0.4, 0.6),        # ID 0: Azul
+    "gelo": (1.0, 1.0, 1.0),        # ID 1: Branco
+    "rochoso": (0.4, 0.2, 0.0),     # ID 2: Marrom
+    "vegetacao_escuro": (0.0, 0.5, 0.0), # ID 3: Verde escuro (Terra/Floresta)
+    "vegetacao_claro": (0.6, 0.8, 0.2),  # ID 4: Verde claro (Vegetação/Campo)
+    "vazio": (0.0, 0.0, 0.0),       # ID 5: Preto
+    "acampamento": (1.0, 0.0, 0.0), # ID 6: Vermelho
 }
 
+# 2. Mapeamento de Classificação para ID (0 a 6)
 CLASSIFICATION_TO_ID = {
-    ("agua", "oceano"): 1,
-    ("agua", "rio"): 1,
-    ("gelo", "geleira"): 2,
-    ("rochoso", "montanha"): 3,
-    ("gramado", "floresta"): 4,
-    ("gramado", "campo"): 5,
-    ("vazio", "vazio"): 6,
-    ("acampamento", "acampamento"): 7,
+    ("agua", "oceano"): 0,
+    ("agua", "rio"): 0,
+    ("gelo", "geleira"): 1,
+    ("rochoso", "montanha"): 2,
+    ("gramado", "floresta"): 3, 
+    ("gramado", "campo"): 4, 
+    ("vazio", "vazio"): 5, 
+    ("acampamento", "acampamento"): 6, 
 }
 
+# 3. Definição da Matriz de Cores (ORDEM CRUCIAL: ID 0 a ID 6)
+# Usamos a ordem garantida pelo ID para construir a paleta
 colors = [
-    COLOR_MAP_MATPLOTLIB["agua"], COLOR_MAP_MATPLOTLIB["gelo"], COLOR_MAP_MATPLOTLIB["rochoso"],
-    COLOR_MAP_MATPLOTLIB["vegetacao_escuro"], COLOR_MAP_MATPLOTLIB["vegetacao_claro"],
-    COLOR_MAP_MATPLOTLIB["vazio"], COLOR_MAP_MATPLOTLIB["acampamento"],
+    COLOR_MAP_MATPLOTLIB["agua"],            
+    COLOR_MAP_MATPLOTLIB["gelo"],            
+    COLOR_MAP_MATPLOTLIB["rochoso"],         
+    COLOR_MAP_MATPLOTLIB["vegetacao_escuro"], 
+    COLOR_MAP_MATPLOTLIB["vegetacao_claro"],  
+    COLOR_MAP_MATPLOTLIB["vazio"],           
+    COLOR_MAP_MATPLOTLIB["acampamento"],     
 ]
 cmap = ListedColormap(colors)
+
+# 4. Definição dos Rótulos da Legenda (Corresponde à ordem 0-6)
 labels = ["Água", "Gelo", "Rochoso", "Terra", "Vegetação", "Vazio", "Acampamentos"]
+
 
 def get_classification_id(field):
     terreno = field.get("terreno")
     ambiente = field.get("ambiente")
     local_atual = field.get("local_atual")
     
-    # 1. Prioridade para Acampamento (vermelho)
+    # Prioridade para Acampamento (ID 6 - Vermelho)
     if local_atual == "acampamento":
-        # Retorna o ID 7 (Acampamento) APENAS se houver acampamento
-        return CLASSIFICATION_TO_ID[("acampamento", "acampamento")]
+        return CLASSIFICATION_TO_ID.get(("acampamento", "acampamento"), 6)
     
-    # 2. Mapeamento Exato
+    # Classificações principais
     key = (terreno, ambiente)
     if key in CLASSIFICATION_TO_ID:
         return CLASSIFICATION_TO_ID[key]
         
-    # 3. Fallback por Terreno (para garantir que a cor base esteja correta)
+    # Fallback por Terreno: 
     if terreno == "gramado":
-        # Se não for floresta (ID 4), assume campo (ID 5)
-        return CLASSIFICATION_TO_ID.get(("gramado", "campo"), 5)
+        return CLASSIFICATION_TO_ID.get(("gramado", "campo"), 4)
     if terreno == "agua":
-        # Se não for rio (ID 1), assume oceano (ID 1)
-        return CLASSIFICATION_TO_ID.get(("agua", "oceano"), 1)
+        return CLASSIFICATION_TO_ID.get(("agua", "oceano"), 0)
     if terreno == "gelo":
-        return CLASSIFICATION_TO_ID.get(("gelo", "geleira"), 2)
+        return CLASSIFICATION_TO_ID.get(("gelo", "geleira"), 1)
     if terreno == "rochoso":
-        return CLASSIFICATION_TO_ID.get(("rochoso", "montanha"), 3)
+        return CLASSIFICATION_TO_ID.get(("rochoso", "montanha"), 2)
         
-    # 4. Fallback final para Vazio (preto)
-    # O ID 7 (vermelho) não é usado como fallback em nenhuma circunstância.
-    return CLASSIFICATION_TO_ID.get(("vazio", "vazio"), 6)
+    # Fallback final para Vazio/Não Mapeado (ID 5 - Preto)
+    return CLASSIFICATION_TO_ID.get(("vazio", "vazio"), 5)
+
+
+def plot_map():
+    try:
+        data = load_map(INPUT_JSON_PATH)
+        if not data or not data.get("mapa"):
+            return
+
+        mapa_data = data["mapa"]
+        map_matrix = np.zeros((HEIGHT, WIDTH), dtype=int)
+        for y in range(HEIGHT):
+            for x in range(WIDTH):
+                map_matrix[y, x] = get_classification_id(mapa_data[y][x]) 
+
+        fig, ax = plt.subplots(figsize=(12, 6))
+        
+        # 🛑 Aplicar vmin/vmax também na visualização completa
+        ax.imshow(map_matrix, cmap=cmap, interpolation='nearest', vmin=0, vmax=6)
+        
+        ax.tick_params(axis='both', which='major', labelsize=5) 
+
+        ax.set_title("Visualização do Mapa por Tipo de Terreno (Grade 200x86)")
+        ax.set_xlabel("Coluna (X)")
+        ax.set_ylabel("Linha (Y)")
+        
+        ax.set_xticks(np.arange(0, WIDTH, 3))
+        ax.set_yticks(np.arange(0, HEIGHT, 3))
+        
+        legend_elements = [Patch(facecolor=colors[i], edgecolor='black', label=labels[i]) for i in range(len(labels))]
+        ax.legend(handles=legend_elements, bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
+
+        plt.tight_layout()
+        plt.savefig(OUTPUT_IMAGE_PATH, dpi=100)
+        plt.close(fig)
+        
+        print(f"Sucesso: O arquivo PNG visual foi gerado em {OUTPUT_IMAGE_PATH}")
+
+    except Exception as e:
+        print(f"Erro na plotagem do mapa: {e}")
+
+# ... (Mantenha as funções load_map, save_map, get_valid_input e edit_map como na última versão) ...
+
+# --- Funções de Visualização ---
 
 def visualize_focus_area(mapa, q_focus, r_focus, output_image_path="mapa_visualizado_foco.png"):
     FOCUS_SIZE = 5
@@ -88,16 +138,19 @@ def visualize_focus_area(mapa, q_focus, r_focus, output_image_path="mapa_visuali
     
     for r_idx, r in enumerate(range(r_min, r_max)):
         for q_idx, q in enumerate(range(q_min, q_max)):
-            focus_matrix[r_idx, q_idx] = get_classification_id(mapa[r][q])
+            focus_matrix[r_idx, q_idx] = get_classification_id(mapa[r][q]) 
 
     fig, ax = plt.subplots(figsize=(6, 6))
-    ax.imshow(focus_matrix, cmap=cmap, interpolation='nearest')
+    
+    # 🛑 CORREÇÃO FINAL: Definir vmin e vmax para forçar o mapeamento de 0 a 6
+    # Isso garante que o ID 0 use a primeira cor e o ID 6 use a última cor.
+    ax.imshow(focus_matrix, cmap=cmap, interpolation='nearest', vmin=0, vmax=6)
     
     focus_q_rel = q_focus - q_min
     focus_r_rel = r_focus - r_min
     
     rect = Rectangle((focus_q_rel - 0.5, focus_r_rel - 0.5), 1, 1, 
-                     edgecolor='magenta', facecolor='none', linewidth=3) # Cor alterada para magenta
+                     edgecolor='magenta', facecolor='none', linewidth=3)
     ax.add_patch(rect)
     
     ax.set_xticks(np.arange(q_max - q_min))
@@ -113,57 +166,28 @@ def visualize_focus_area(mapa, q_focus, r_focus, output_image_path="mapa_visuali
     
     print(f"Sucesso: Visualização de foco gerada em {output_image_path}")
 
-def visualize_map_final(json_path, output_image_path):
+# --- Funções de Edição (Adição do Debug Crucial) ---
+
+def load_map(json_path):
+    # ... (mesma função) ...
     try:
-        with open(json_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-    except Exception as e:
-        print(f"Erro ao ler JSON para visualização: {e}")
-        return
-
-    mapa_data = data.get("mapa")
-    map_matrix = np.zeros((HEIGHT, WIDTH), dtype=int)
-    for y in range(HEIGHT):
-        for x in range(WIDTH):
-            map_matrix[y, x] = get_classification_id(mapa_data[y][x])
-
-    fig, ax = plt.subplots(figsize=(12, 6))
-    ax.imshow(map_matrix, cmap=cmap, interpolation='nearest')
-    ax.tick_params(axis='both', which='major', labelsize=5)
-
-    ax.set_title("Visualização do Mapa por Tipo de Terreno (Grade 200x86)")
-    ax.set_xlabel("Coluna (X)")
-    ax.set_ylabel("Linha (Y)")
-    
-    ax.set_xticks(np.arange(0, WIDTH, 3))
-    ax.set_yticks(np.arange(0, HEIGHT, 3))
-    
-    legend_elements = [Rectangle((0, 0), 1, 1, facecolor=colors[i], edgecolor='black', label=labels[i]) for i in range(len(labels))]
-    ax.legend(handles=legend_elements, bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
-
-    plt.tight_layout()
-    plt.savefig(output_image_path, dpi=100)
-    plt.close(fig)
-    
-    print(f"Sucesso: O arquivo PNG visual foi gerado em {output_image_path}")
-
-def load_map():
-    try:
-        with open(JSON_PATH, "r") as f:
+        with open(json_path, "r") as f:
             return json.load(f)
     except FileNotFoundError:
-        print(f"Erro: Arquivo JSON não encontrado em {JSON_PATH}.")
+        print(f"Erro: Arquivo JSON não encontrado em {json_path}.")
         return None
     except json.JSONDecodeError:
-        print(f"Erro: Não foi possível decodificar o arquivo JSON em {JSON_PATH}.")
+        print(f"Erro: Não foi possível decodificar o arquivo JSON em {json_path}.")
         return None
 
-def save_map(data):
-    with open(JSON_PATH, "w") as f:
+def save_map(data, json_path):
+    # ... (mesma função) ...
+    with open(json_path, "w") as f:
         json.dump(data, f, indent=4)
-    print(f"\nMapa salvo em {JSON_PATH}")
+    print(f"\nMapa salvo em {json_path}")
 
 def get_valid_input(prompt, valid_options):
+    # ... (mesma função) ...
     while True:
         user_input = input(prompt).lower().strip()
         if user_input in valid_options:
@@ -171,7 +195,7 @@ def get_valid_input(prompt, valid_options):
         print(f"Entrada inválida. As opções válidas são: {', '.join(valid_options)}")
 
 def edit_map():
-    data = load_map()
+    data = load_map(INPUT_JSON_PATH)
     if not data:
         return
 
@@ -198,9 +222,19 @@ def edit_map():
         
         print("-" * 50)
         
+        # 🛑 DIAGNÓSTICO CRUCIAL: Exibe os dados brutos da célula antes de plotar
+        print("🛑 DADOS BRUTOS DO JSON NA CÉLULA ANTES DA EDIÇÃO:")
+        print(f"   Terreno: {cell.get('terreno')}")
+        print(f"   Ambiente: {cell.get('ambiente')}")
+        print(f"   Local Atual: {cell.get('local_atual')}")
+        calculated_id = get_classification_id(cell)
+        print(f"   ID Calculado: {calculated_id} (Deveria ser a cor no índice {calculated_id} da lista 'colors')")
+        print("-" * 50)
+        
+        # Gera a visualização de foco
         visualize_focus_area(mapa, q, r)
         
-        print(f"Célula em foco: ({q}, {r}) - Terreno Atual: {cell['terreno']}, Ambiente Atual: {cell['ambiente']}")
+        print(f"Célula em foco: ({q}, {r}) - Terreno Atual: {cell.get('terreno')}, Ambiente Atual: {cell.get('ambiente')}")
         
         confirmar = input("A célula está correta para edição? (s/n): ").lower().strip()
         if confirmar != 's':
@@ -214,9 +248,9 @@ def edit_map():
         cell["ambiente"] = novo_ambiente
         cell["descricao"] = f"Terreno: {novo_terreno.capitalize()}, Ambiente: {novo_ambiente.capitalize()} (Corrigido Manualmente)"
         
-        save_map(data)
+        save_map(data, INPUT_JSON_PATH)
         
-        visualize_map_final(json_path=JSON_PATH, output_image_path="mapa_visualizado_final.png")
+        plot_map()
         
         continuar = input("Pressione ENTER para editar outra célula, ou 's' para sair: ").lower().strip()
         if continuar == 's':
@@ -228,8 +262,8 @@ if __name__ == "__main__":
     try:
         import matplotlib.pyplot as plt
     except ImportError:
-        print("Instalando matplotlib...")
-        os.system("pip3 install matplotlib")
+        print("O Matplotlib não está instalado. Tentando instalar...")
+        os.system(f"{sys.executable} -m pip install matplotlib")
         import matplotlib.pyplot as plt
         
     edit_map()
