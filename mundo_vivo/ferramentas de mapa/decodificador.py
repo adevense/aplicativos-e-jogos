@@ -7,7 +7,8 @@ CAMINHO_SCRIPT = os.path.dirname(os.path.abspath(__file__))
 NOME_ARQUIVO_CODIFICADO = os.path.join(CAMINHO_SCRIPT, 'mapa_bd.json')
 NOME_ARQUIVO_DECODIFICADO = os.path.join(CAMINHO_SCRIPT, 'mapa_bd_decodificado.json')
 
-# Modelo de chaves e sua ordem para garantir a estrutura exata na saída
+
+# Modelo de chaves e sua ordem EXATA para a saída
 CELL_TEMPLATE_KEYS = [
     "x", "y", "terreno", "ambiente", "local_atual", "npcs_presentes",
     "grupos_presentes", "players_presentes", "valor_movimentacao",
@@ -15,10 +16,6 @@ CELL_TEMPLATE_KEYS = [
 ]
 
 def decodificar_json_estrutura_exata(nome_arquivo_entrada, nome_arquivo_saida):
-    """
-    Carrega o JSON codificado e recria a estrutura detalhada de objetos 
-    de célula na ORDEM e com todos os NOMES de chaves especificados.
-    """
     if not os.path.exists(nome_arquivo_entrada):
         print(f"❌ ERRO: O arquivo de entrada codificado '{nome_arquivo_entrada}' não foi encontrado.")
         return
@@ -27,8 +24,8 @@ def decodificar_json_estrutura_exata(nome_arquivo_entrada, nome_arquivo_saida):
     try:
         with open(nome_arquivo_entrada, 'r') as f:
             dados_codificados = json.load(f)
-    except json.JSONDecodeError as e:
-        print(f"❌ ERRO de decodificação no JSON de entrada: {e}")
+    except Exception as e:
+        print(f"❌ ERRO ao ler ou decodificar o JSON codificado: {e}")
         return
     
     metadata = dados_codificados.get("metadata", {})
@@ -36,42 +33,45 @@ def decodificar_json_estrutura_exata(nome_arquivo_entrada, nome_arquivo_saida):
     # 2. Extração dos Mapas de Decodificação
     terrenos_map = metadata.get("terrenos_map", {})
     ambientes_map = metadata.get("ambientes_map", {})
+    # *** NOVO: Carrega o mapa de local_atual ***
+    local_atual_map = metadata.get("local_atual_map", {}) 
     
-    # 3. Preparação dos Dados Codificados (Garantindo valores padrão)
+    # 3. Preparação dos Dados Codificados
     mapa_terreno = dados_codificados.get("terreno", [])
     mapa_ambiente = dados_codificados.get("ambiente", [])
     mapa_movimentacao = dados_codificados.get("valor_movimentacao", [])
     mapa_estabilidade = dados_codificados.get("valor_estabilidade", [])
+    # *** NOVO: Carrega o array de local_atual ***
+    mapa_local_atual = dados_codificados.get("local_atual", [])
     
     num_rows = len(mapa_terreno)
     if num_rows == 0:
         print("❌ ERRO: O array de terreno está vazio.")
         return
 
-    # 4. Decodificação e Reconstrução do Mapa Detalhado
+    # 4. Decodificação e Reconstrução
     mapa_decodificado_detalhado = []
     
-    print(f"Iniciando decodificação de {num_rows} linhas...")
-
     for y in range(num_rows):
         row_detalhada = []
         num_cols = len(mapa_terreno[y])
         
         for x in range(num_cols):
-            # Obtém os códigos/valores
+            # Obtém e converte o código de volta para a string
             terreno_code = str(mapa_terreno[y][x])
             ambiente_code = str(mapa_ambiente[y][x])
+            # *** NOVO: Decodifica o local_atual ***
+            local_atual_code = str(mapa_local_atual[y][x])
+            
+            terreno_nome = terrenos_map.get(terreno_code, "DESCONHECIDO")
+            ambiente_nome = ambientes_map.get(ambiente_code, "DESCONHECIDO")
+            # *** NOVO: Obtém o valor real (None ou "acampamento") ***
+            local_atual_val = local_atual_map.get(local_atual_code, None) 
             
             movimentacao_val = mapa_movimentacao[y][x]
             estabilidade_val = mapa_estabilidade[y][x]
-            
-            # Converte o código de volta para a string
-            terreno_nome = terrenos_map.get(terreno_code, "DESCONHECIDO")
-            ambiente_nome = ambientes_map.get(ambiente_code, "DESCONHECIDO")
-            
-            # --- Montagem da Célula Usando o Template (Garantindo a Ordem) ---
-            
-            # 1. Cria o objeto com os valores dinâmicos
+
+            # --- Montagem da Célula (Garantindo a Ordem e todos os campos) ---
             cell_data = {
                 "x": x,
                 "y": y,
@@ -79,41 +79,32 @@ def decodificar_json_estrutura_exata(nome_arquivo_entrada, nome_arquivo_saida):
                 "ambiente": ambiente_nome,
                 "valor_movimentacao": movimentacao_val,
                 "valor_estabilidade": estabilidade_val,
-                
-                # Valores fixos/padrão que você não codificou, mas quer manter na saída
-                "local_atual": None,
+                "local_atual": local_atual_val, # *** ATUALIZADO ***
                 "npcs_presentes": [],
                 "grupos_presentes": [],
                 "players_presentes": [],
-                "descricao": f"Terreno: {terreno_nome}, Ambiente: {ambiente_nome}" # Mantendo o exemplo de descrição
+                "descricao": f"Terreno: {terreno_nome}, Ambiente: {ambiente_nome}" 
             }
             
-            # 2. Cria o objeto final na ordem exata (OrderedDict não é necessário,
-            # mas garante o uso da ordem das chaves do template)
             cell_objeto = {}
             for key in CELL_TEMPLATE_KEYS:
-                # Usa .get() para pegar o valor do dicionário recém-criado
                 cell_objeto[key] = cell_data.get(key) 
 
             row_detalhada.append(cell_objeto)
             
         mapa_decodificado_detalhado.append(row_detalhada)
 
-    # 5. Monta a Estrutura Final e Salva
-    estrutura_final = {
-        "mapa": mapa_decodificado_detalhado
-    }
+    # 5. Salvamento
+    estrutura_final = {"mapa": mapa_decodificado_detalhado}
 
     try:
         with open(nome_arquivo_saida, 'w') as f:
-            # json.dump em Python 3.7+ mantém a ordem de inserção do dicionário.
             json.dump(estrutura_final, f, indent=4) 
 
-        print("\n✅ Decodificação concluída com sucesso!")
-        print(f"O novo mapa detalhado e com estrutura idêntica foi salvo como: {nome_arquivo_saida}")
+        print(f"\n✅ Decodificação (com acampamentos) concluída! Arquivo salvo como: {nome_arquivo_saida}")
         
     except Exception as e:
-        print(f"❌ ERRO ao salvar o arquivo de saída: {e}")
+        print(f"❌ ERRO ao salvar o arquivo decodificado: {e}")
 
-# --- Execução do Decodificador ---
+# --- EXECUÇÃO ---
 decodificar_json_estrutura_exata(NOME_ARQUIVO_CODIFICADO, NOME_ARQUIVO_DECODIFICADO)

@@ -11,7 +11,11 @@ WIDTH = 200
 HEIGHT = 86
 CAMINHO_SCRIPT = os.path.dirname(os.path.abspath(__file__))
 INPUT_JSON_PATH = os.path.join(CAMINHO_SCRIPT, 'mapa_final_200x86.json')
-OUTPUT_IMAGE_PATH = os.path.join(CAMINHO_SCRIPT, 'mapa_visualizado_final.png')
+
+# ✏️ CORREÇÃO 1: Definir caminhos absolutos e únicos
+OUTPUT_IMAGE_FOCO = os.path.join(CAMINHO_SCRIPT, 'mapa_foco.png')
+OUTPUT_IMAGE_COMPLETO = os.path.join(CAMINHO_SCRIPT, 'mapa_completo.png')
+
 
 # Terrenos e Ambientes Válidos (para edição)
 TERRENOS_VALIDOS = ["agua", "gelo", "rochoso", "gramado", "vazio"]
@@ -41,7 +45,6 @@ CLASSIFICATION_TO_ID = {
 }
 
 # 3. Definição da Matriz de Cores (ORDEM CRUCIAL: ID 0 a ID 6)
-# Usamos a ordem garantida pelo ID para construir a paleta
 colors = [
     COLOR_MAP_MATPLOTLIB["agua"],            
     COLOR_MAP_MATPLOTLIB["gelo"],            
@@ -63,7 +66,8 @@ def get_classification_id(field):
     local_atual = field.get("local_atual")
     
     # Prioridade para Acampamento (ID 6 - Vermelho)
-    if local_atual == "acampamento":
+    # ✏️ LÓGICA REFINADA (baseada na depuração anterior)
+    if local_atual and local_atual != "None" and local_atual != "null": 
         return CLASSIFICATION_TO_ID.get(("acampamento", "acampamento"), 6)
     
     # Classificações principais
@@ -99,8 +103,8 @@ def plot_map():
 
         fig, ax = plt.subplots(figsize=(12, 6))
         
-        # 🛑 Aplicar vmin/vmax também na visualização completa
-        ax.imshow(map_matrix, cmap=cmap, interpolation='nearest', vmin=0, vmax=6)
+        # 🛑 Aplicar vmin/vmax para garantir a consistência das cores
+        ax.imshow(map_matrix, cmap=cmap, interpolation='nearest', vmin=0, vmax=len(colors)-1)
         
         ax.tick_params(axis='both', which='major', labelsize=5) 
 
@@ -115,19 +119,17 @@ def plot_map():
         ax.legend(handles=legend_elements, bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
 
         plt.tight_layout()
-        plt.savefig(OUTPUT_IMAGE_PATH, dpi=100)
+        # ✏️ CORREÇÃO 2: Usar o caminho completo e único
+        plt.savefig(OUTPUT_IMAGE_COMPLETO, dpi=100)
         plt.close(fig)
         
-        print(f"Sucesso: O arquivo PNG visual foi gerado em {OUTPUT_IMAGE_PATH}")
+        print(f"Sucesso: O arquivo PNG (completo) foi gerado em {OUTPUT_IMAGE_COMPLETO}")
 
     except Exception as e:
         print(f"Erro na plotagem do mapa: {e}")
 
-# ... (Mantenha as funções load_map, save_map, get_valid_input e edit_map como na última versão) ...
 
-# --- Funções de Visualização ---
-
-def visualize_focus_area(mapa, q_focus, r_focus, output_image_path="mapa_visualizado_foco.png"):
+def visualize_focus_area(mapa, q_focus, r_focus, output_image_path):
     FOCUS_SIZE = 5
     q_min = max(0, q_focus - FOCUS_SIZE)
     q_max = min(WIDTH, q_focus + FOCUS_SIZE + 1)
@@ -142,9 +144,8 @@ def visualize_focus_area(mapa, q_focus, r_focus, output_image_path="mapa_visuali
 
     fig, ax = plt.subplots(figsize=(6, 6))
     
-    # 🛑 CORREÇÃO FINAL: Definir vmin e vmax para forçar o mapeamento de 0 a 6
-    # Isso garante que o ID 0 use a primeira cor e o ID 6 use a última cor.
-    ax.imshow(focus_matrix, cmap=cmap, interpolation='nearest', vmin=0, vmax=6)
+    # 🛑 Aplicar vmin/vmax para garantir a consistência das cores
+    ax.imshow(focus_matrix, cmap=cmap, interpolation='nearest', vmin=0, vmax=len(colors)-1)
     
     focus_q_rel = q_focus - q_min
     focus_r_rel = r_focus - r_min
@@ -161,6 +162,7 @@ def visualize_focus_area(mapa, q_focus, r_focus, output_image_path="mapa_visuali
     ax.set_title(f"Foco em ({q_focus}, {r_focus})")
     
     plt.tight_layout()
+    # O 'output_image_path' será fornecido na chamada da função
     plt.savefig(output_image_path, dpi=100)
     plt.close(fig)
     
@@ -169,9 +171,8 @@ def visualize_focus_area(mapa, q_focus, r_focus, output_image_path="mapa_visuali
 # --- Funções de Edição (Adição do Debug Crucial) ---
 
 def load_map(json_path):
-    # ... (mesma função) ...
     try:
-        with open(json_path, "r") as f:
+        with open(json_path, "r", encoding='utf-8') as f:
             return json.load(f)
     except FileNotFoundError:
         print(f"Erro: Arquivo JSON não encontrado em {json_path}.")
@@ -181,13 +182,11 @@ def load_map(json_path):
         return None
 
 def save_map(data, json_path):
-    # ... (mesma função) ...
-    with open(json_path, "w") as f:
+    with open(json_path, "w", encoding='utf-8') as f:
         json.dump(data, f, indent=4)
     print(f"\nMapa salvo em {json_path}")
 
 def get_valid_input(prompt, valid_options):
-    # ... (mesma função) ...
     while True:
         user_input = input(prompt).lower().strip()
         if user_input in valid_options:
@@ -222,7 +221,7 @@ def edit_map():
         
         print("-" * 50)
         
-        # 🛑 DIAGNÓSTICO CRUCIAL: Exibe os dados brutos da célula antes de plotar
+        # 🛑 DIAGNÓSTICO:
         print("🛑 DADOS BRUTOS DO JSON NA CÉLULA ANTES DA EDIÇÃO:")
         print(f"   Terreno: {cell.get('terreno')}")
         print(f"   Ambiente: {cell.get('ambiente')}")
@@ -231,8 +230,8 @@ def edit_map():
         print(f"   ID Calculado: {calculated_id} (Deveria ser a cor no índice {calculated_id} da lista 'colors')")
         print("-" * 50)
         
-        # Gera a visualização de foco
-        visualize_focus_area(mapa, q, r)
+        # ✏️ CORREÇÃO 3: Passar o caminho absoluto e único para a função
+        visualize_focus_area(mapa, q, r, OUTPUT_IMAGE_FOCO)
         
         print(f"Célula em foco: ({q}, {r}) - Terreno Atual: {cell.get('terreno')}, Ambiente Atual: {cell.get('ambiente')}")
         
@@ -250,7 +249,8 @@ def edit_map():
         
         save_map(data, INPUT_JSON_PATH)
         
-        plot_map()
+        # Chama a função que salva no caminho 'mapa_completo.png'
+        plot_map() 
         
         continuar = input("Pressione ENTER para editar outra célula, ou 's' para sair: ").lower().strip()
         if continuar == 's':
