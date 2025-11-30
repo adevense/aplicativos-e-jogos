@@ -4,13 +4,13 @@
             "nome": "testers",
             "descricao": "teste de grupos 3",
             "quantidade_membros": 30,
-            "q": 36,
-            "r": 64,
+            "q": 60,
+            "r": 63,
             "tem_cavalo": false,
             "tem_barco": true,
-            "meta_q": 99,
-            "meta_r": 64,
-            "progresso_diario": 10.0,
+            "meta_q": 74,
+            "meta_r": 63,
+            "progresso_diario": 40.0,
             "tipo": "grupo",
             "base_local_nome": "acampamento",
             "modo_transporte": "a_pe",
@@ -21,19 +21,19 @@
             "meta_orig_q": 108,
             "meta_orig_r": 16,
             "status": "ativo",
-            "days_since_home": 1560
+            "days_since_home": 14799
         },
         {
             "nome": "guris",
             "descricao": "guris teste 3",
             "quantidade_membros": 7,
-            "q": 48,
-            "r": 54,
+            "q": 65,
+            "r": 58,
             "tem_cavalo": true,
             "tem_barco": false,
-            "meta_q": 97,
-            "meta_r": 43,
-            "progresso_diario": 19.5,
+            "meta_q": 96,
+            "meta_r": 67,
+            "progresso_diario": 37.0,
             "tipo": "grupo",
             "base_local_nome": "acampamento",
             "modo_transporte": "a_pe",
@@ -44,20 +44,55 @@
             "meta_orig_q": 199,
             "meta_orig_r": 80,
             "status": "ativo",
-            "days_since_home": 1560
+            "days_since_home": 14799
+        },
+        {
+            "nome": "BANDIDOS",
+            "tipo": "grupo",
+            "q": 13,
+            "r": 36,
+            "status": "ativo",
+            "cor_hex": "#3357FF",
+            "modo_transporte": "a_pe",
+            "progresso_diario": 0.0,
+            "meta_q": null,
+            "tem_cavalo": false,
+            "tem_barco": false,
+            "tem_navio": false,
+            "days_since_home": 190,
+            "meta_r": 37
+        },
+        {
+            "nome": "Goblins",
+            "descricao": "Sem descrição",
+            "tipo": "grupo",
+            "q": 180,
+            "r": 85,
+            "status": "ativo",
+            "hp": 100,
+            "nivel": 4,
+            "modo_transporte": "a_pe",
+            "tem_navio": false,
+            "tem_cavalo": false,
+            "tem_barco_rio": false,
+            "cor_hex": "#FF33A1",
+            "progresso_diario": 0,
+            "meta_q": null,
+            "meta_r": 70,
+            "days_since_home": 30
         }
     ],
     "npcs": [
         {
             "nome": "clovis",
             "descricao": "é um man",
-            "q": 44,
-            "r": 58,
+            "q": 58,
+            "r": 56,
             "tem_cavalo": true,
             "tem_barco": false,
-            "meta_q": 9,
-            "meta_r": 58,
-            "progresso_diario": 9.299999999999855,
+            "meta_q": 28,
+            "meta_r": 60,
+            "progresso_diario": 6.799999999999855,
             "tipo": "npc",
             "base_local_nome": null,
             "modo_transporte": "a_pe",
@@ -66,21 +101,21 @@
             "cor_hex": "#FF5733",
             "modo_temporario": "cavalo",
             "status": "ativo",
-            "days_since_home": 1560
+            "days_since_home": 14799
         },
         {
             "nome": "Kenzo",
             "descricao": "É ",
-            "q": 46,
-            "r": 47,
+            "q": 76,
+            "r": 37,
             "tem_cavalo": true,
             "tem_barco": true,
-            "meta_q": 43,
-            "meta_r": 14,
-            "progresso_diario": 0.0,
+            "meta_q": 148,
+            "meta_r": 18,
+            "progresso_diario": 31.25,
             "tipo": "npc",
             "base_local_nome": "acampamento",
-            "modo_transporte": "a_pe",
+            "modo_transporte": "dragao",
             "tem_navio": true,
             "tem_barco_rio": true,
             "cor_hex": "#33FF57",
@@ -88,7 +123,7 @@
             "status": "ativo",
             "meta_orig_q": 36,
             "meta_orig_r": 9,
-            "days_since_home": 1560
+            "days_since_home": 14799
         },
         {
             "nome": "Inácio",
@@ -97,8 +132,8 @@
             "r": 51,
             "tem_cavalo": true,
             "tem_barco": false,
-            "meta_q": 85,
-            "meta_r": 43,
+            "meta_q": 15,
+            "meta_r": 61,
             "progresso_diario": 0.0,
             "tipo": "npc",
             "base_local_nome": null,
@@ -108,18 +143,18 @@
             "cor_hex": "#3357FF",
             "modo_temporario": "cavalo",
             "status": "ativo",
-            "days_since_home": 1560
+            "days_since_home": 14799
         },
         {
             "nome": "claudio",
             "descricao": "é o caba do teste 5",
-            "q": 76,
-            "r": 73,
+            "q": 93,
+            "r": 49,
             "tem_cavalo": false,
             "tem_barco": true,
-            "meta_q": 98,
-            "meta_r": 73,
-            "progresso_diario": 15.0,
+            "meta_q": 95,
+            "meta_r": 49,
+            "progresso_diario": 7.5,
             "tipo": "npc",
             "base_local_nome": "acampamento",
             "modo_transporte": "a_pe",
@@ -130,18 +165,18 @@
             "meta_orig_q": 160,
             "meta_orig_r": 40,
             "status": "ativo",
-            "days_since_home": 1560
+            "days_since_home": 14799
         },
         {
             "nome": "zoio",
             "descricao": "zoio",
-            "q": 78,
-            "r": 68,
+            "q": 52,
+            "r": 48,
             "tem_cavalo": false,
             "tem_barco": false,
-            "meta_q": 104,
-            "meta_r": 68,
-            "progresso_diario": 20.0,
+            "meta_q": 89,
+            "meta_r": 48,
+            "progresso_diario": 25.0,
             "tipo": "npc",
             "base_local_nome": "acampamento",
             "modo_transporte": "a_pe",
@@ -152,18 +187,18 @@
             "meta_orig_q": 36,
             "meta_orig_r": 9,
             "status": "ativo",
-            "days_since_home": 1560
+            "days_since_home": 14799
         },
         {
             "nome": "garibaldo",
             "descricao": "mt foda",
-            "q": 95,
-            "r": 77,
+            "q": 68,
+            "r": 56,
             "tem_cavalo": true,
             "tem_barco": true,
-            "meta_q": 49,
-            "meta_r": 29,
-            "progresso_diario": 6.5,
+            "meta_q": 59,
+            "meta_r": 56,
+            "progresso_diario": 9.0,
             "tipo": "npc",
             "base_local_nome": "acampamento",
             "modo_transporte": "a_pe",
@@ -174,18 +209,18 @@
             "meta_orig_q": 102,
             "meta_orig_r": 64,
             "status": "ativo",
-            "days_since_home": 1560
+            "days_since_home": 14799
         },
         {
             "nome": "frieren",
             "descricao": "maga",
-            "q": 161,
-            "r": 55,
+            "q": 63,
+            "r": 43,
             "tem_cavalo": false,
             "tem_barco": false,
-            "meta_q": 0,
-            "meta_r": 2,
-            "progresso_diario": 15.125,
+            "meta_q": 63,
+            "meta_r": 35,
+            "progresso_diario": 0.125,
             "tipo": "npc",
             "base_local_nome": null,
             "modo_transporte": "a_pe",
@@ -194,18 +229,18 @@
             "cor_hex": "#C70039",
             "modo_temporario": "navio_oceano",
             "status": "ativo",
-            "days_since_home": 1560
+            "days_since_home": 14799
         },
         {
             "nome": "alice",
             "descricao": "explosion",
-            "q": 67,
-            "r": 61,
+            "q": 7,
+            "r": 56,
             "tem_cavalo": false,
             "tem_barco": true,
-            "meta_q": 25,
-            "meta_r": 53,
-            "progresso_diario": 40.0,
+            "meta_q": 4,
+            "meta_r": 56,
+            "progresso_diario": 47.5,
             "tipo": "npc",
             "base_local_nome": null,
             "modo_transporte": "a_pe",
@@ -214,7 +249,7 @@
             "cor_hex": "#900C3F",
             "modo_temporario": null,
             "status": "ativo",
-            "days_since_home": 1560
+            "days_since_home": 14799
         },
         {
             "nome": "irmão do zoio",
@@ -223,8 +258,8 @@
             "r": 22,
             "tem_cavalo": true,
             "tem_barco": true,
-            "meta_q": 78,
-            "meta_r": 18,
+            "meta_q": 47,
+            "meta_r": 41,
             "progresso_diario": 0.375,
             "tipo": "npc",
             "base_local_nome": null,
@@ -234,18 +269,18 @@
             "cor_hex": "#581845",
             "modo_temporario": null,
             "status": "ativo",
-            "days_since_home": 1560
+            "days_since_home": 14799
         },
         {
             "nome": "ibere tenorio",
             "descricao": "Malegeno",
-            "q": 43,
-            "r": 53,
+            "q": 77,
+            "r": 23,
             "tem_cavalo": true,
             "tem_barco": true,
-            "meta_q": 26,
-            "meta_r": 56,
-            "progresso_diario": 47.0,
+            "meta_q": 79,
+            "meta_r": 14,
+            "progresso_diario": 27.0,
             "tipo": "npc",
             "base_local_nome": "acampamento",
             "modo_transporte": "a_pe",
@@ -256,7 +291,7 @@
             "meta_orig_q": 146,
             "meta_orig_r": 52,
             "status": "ativo",
-            "days_since_home": 1560
+            "days_since_home": 14799
         },
         {
             "nome": "reze",
@@ -265,8 +300,8 @@
             "r": 35,
             "tem_cavalo": true,
             "tem_barco": false,
-            "meta_q": 81,
-            "meta_r": 22,
+            "meta_q": 97,
+            "meta_r": 74,
             "progresso_diario": 0.75,
             "tipo": "npc",
             "base_local_nome": "acampamento",
@@ -278,7 +313,7 @@
             "status": "ativo",
             "meta_orig_q": 87,
             "meta_orig_r": 20,
-            "days_since_home": 1560
+            "days_since_home": 14799
         },
         {
             "nome": "evil neuro",
@@ -287,8 +322,8 @@
             "r": 19,
             "tem_cavalo": false,
             "tem_barco": false,
-            "meta_q": 29,
-            "meta_r": 76,
+            "meta_q": 16,
+            "meta_r": 51,
             "progresso_diario": 0.0,
             "tipo": "npc",
             "base_local_nome": "acampamento",
@@ -300,18 +335,18 @@
             "status": "ativo",
             "meta_orig_q": 36,
             "meta_orig_r": 9,
-            "days_since_home": 1560
+            "days_since_home": 14799
         },
         {
             "nome": "vedal",
             "descricao": "tartaruga",
-            "q": 38,
-            "r": 64,
+            "q": 28,
+            "r": 67,
             "tem_cavalo": true,
             "tem_barco": true,
-            "meta_q": 23,
-            "meta_r": 65,
-            "progresso_diario": 40.0,
+            "meta_q": 28,
+            "meta_r": 71,
+            "progresso_diario": 45.0,
             "tipo": "npc",
             "base_local_nome": "acampamento",
             "modo_transporte": "a_pe",
@@ -322,18 +357,18 @@
             "meta_orig_q": 6,
             "meta_orig_r": 1,
             "status": "ativo",
-            "days_since_home": 1560
+            "days_since_home": 14799
         },
         {
             "nome": "neuro",
             "descricao": "Normal Neuro",
-            "q": 40,
-            "r": 65,
+            "q": 61,
+            "r": 49,
             "tem_cavalo": false,
             "tem_barco": true,
-            "meta_q": 40,
-            "meta_r": 79,
-            "progresso_diario": 17.5,
+            "meta_q": 51,
+            "meta_r": 34,
+            "progresso_diario": 30.0,
             "tipo": "npc",
             "base_local_nome": "acampamento",
             "modo_transporte": "a_pe",
@@ -344,7 +379,7 @@
             "meta_orig_q": 183,
             "meta_orig_r": 25,
             "status": "ativo",
-            "days_since_home": 1560
+            "days_since_home": 14799
         },
         {
             "nome": "Gerson Medonsa Pinturas decorativas",
@@ -359,10 +394,10 @@
             "tem_navio": false,
             "modo_transporte": "a_pe",
             "progresso_diario": 0,
-            "meta_q": 0,
-            "meta_r": 80,
+            "meta_q": null,
+            "meta_r": 25,
             "modo_temporario": null,
-            "days_since_home": 1560
+            "days_since_home": 14799
         }
     ],
     "players": [
@@ -417,9 +452,32 @@
             "cor_hex": "#f4015f",
             "modo_temporario": null,
             "status": "ativo",
-            "days_since_home": 1560
+            "days_since_home": 14799
         }
     ],
     "locais": [],
-    "config": {}
+    "config": {
+        "custom_transports": {
+            "dragao": {
+                "speed": 5.0,
+                "restrict": [
+                    "nenhuma"
+                ],
+                "cost_mod": 1.0
+            },
+            "bicicleta": {
+                "speed": 2.0,
+                "restrict": [
+                    "agua",
+                    "oceano",
+                    "rochoso",
+                    "vazio"
+                ],
+                "cost_mod": 1.0
+            }
+        }
+    },
+    "metadata": {
+        "global_time_days": 130
+    }
 }

@@ -1,0 +1,16 @@
+Menu simulação e tempo
+==exibir data
+
+-Avançar 1 Dia
+-Avançar 1 Semana
+-Avançar 1 Mês
+-Avançar tempo personalizado(permitir inserir um numero inteiro de dias)
+-
+
+Menu Informações do mundo
+==Exibir informações de progresso do mundo e data
+
+-Inserir data manualmente(Dia/mes/ano)
+-Inserir barra de progresso do mundo(permitir inserir um numero real de 0 a 100)
+-
+-
